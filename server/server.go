@@ -483,14 +483,14 @@ func (s *Server) GetTokenData(ti oauth2.TokenInfo) (data map[string]interface{})
 }
 
 // HandleTokenRequest token request handling
-func (s *Server) HandleTokenRequest(w http.ResponseWriter, r *http.Request) (err error) {
+func (s *Server) HandleTokenRequest(w http.ResponseWriter, r *http.Request) (ti oauth2.TokenInfo, err error) {
 	gt, tgr, verr := s.ValidationTokenRequest(r)
 	if verr != nil {
 		err = s.tokenError(w, verr)
 		return
 	}
 
-	ti, verr := s.GetAccessToken(gt, tgr)
+	ti, verr = s.GetAccessToken(gt, tgr)
 	if verr != nil {
 		err = s.tokenError(w, verr)
 		return
